@@ -1,0 +1,12 @@
+.{
+    .name = "zlzmq",
+    .version = "0.1.0",
+    .dependencies = .{},
+    .paths = .{
+        "zmq.zig",
+        "build.zig",
+        "build.zig.zon",
+        "LICENSE",
+        "README.md",
+    },
+}

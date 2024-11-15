@@ -9,6 +9,7 @@ const log = std.log.scoped(.zlzmq);
 
 fn unexpectedError(e: c_int) noreturn {
     log.err("bug: unexpected zmq error {d}, '{?s}'", .{ e, c.zmq_strerror(e) });
+    @panic("unexpected error");
 }
 
 pub fn errno() c_int {

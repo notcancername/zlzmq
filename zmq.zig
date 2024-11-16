@@ -547,7 +547,12 @@ pub const z85 = struct {
 
 pub const curve = struct {
     /// zmq_curve_public
-    pub fn public(public_key: *[41]u8, secret_key: *const [41]u8) error{NotSupported}!void {
+    pub fn public(public_key: *[40:0]u8, secret_key: *const [40:0]u8) error{NotSupported}!void {
         return if(c.zmq_curve_public(public_key, secret_key) != 0) return error.NotSupported;
+    }
+
+    /// zmq_curve_keypair
+    pub fn keypair(public_key: *[40:0]u8, secret_key: *[40:0]u8) error{NotSupported}!void {
+        return if(c.zmq_curve_keypair(public_key, secret_key) != 0) return error.NotSupported;
     }
 };

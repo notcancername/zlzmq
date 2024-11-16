@@ -494,7 +494,7 @@ pub const Message = extern struct {
     // recurses to eintr loop
     /// zmq_msg_send
     pub fn send(m: *Message, sock: *Socket, options: Socket.SendRecvOptions) error{ NotSocket, WouldBlock, SocketTypeNotForSending, MultipartNotAllowed, IllegalState, Terminated, NotRoutable }!void {
-        if (c.zmq_msg_send(&m.i, sock, @bitCast(options)) != 0) return switch (errno()) {
+        if (c.zmq_msg_send(&m.i, sock, @bitCast(options)) < 0) return switch (errno()) {
             c.ENOTSOCK => error.NotSocket, // user error: sock was null
             c.EFAULT => unreachable, // user error: message was invalid
             c.EAGAIN => error.WouldBlock,
@@ -511,7 +511,7 @@ pub const Message = extern struct {
     // recurses to eintr loop
     /// zmq_msg_recv
     pub fn recv(m: *Message, sock: *Socket, options: Socket.SendRecvOptions) error{ NotSocket, WouldBlock, SocketTypeNotForReceiving, IllegalState, Terminated }!void {
-        if (c.zmq_msg_recv(&m.i, sock, @bitCast(options)) == 0) return switch (errno()) {
+        if (c.zmq_msg_recv(&m.i, sock, @bitCast(options)) < 0) return switch (errno()) {
             c.ENOTSOCK => error.NotSocket, // user error: sock was null
             c.EFAULT => unreachable, // user error: message was invalid
             c.EAGAIN => error.WouldBlock,

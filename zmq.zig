@@ -544,3 +544,10 @@ pub const z85 = struct {
         if (c.zmq_z85_decode(out, in) != out) return error.IllegalValue;
     }
 };
+
+pub const curve = struct {
+    /// zmq_curve_public
+    pub fn public(public_key: *[41]u8, secret_key: *const [41]u8) error{NotSupported}!void {
+        return if(c.zmq_curve_public(public_key, secret_key) != 0) return error.NotSupported;
+    }
+};

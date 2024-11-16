@@ -248,7 +248,7 @@ pub const Socket = opaque {
     };
 
     pub const SecurityMechanism = enum(c_int) {
-        @"null" = 0,
+        null = 0,
         plain = 1,
         curve = 2,
         gssapi = 3,
@@ -284,7 +284,7 @@ pub const Socket = opaque {
             c.ENOTSOCK => error.NotSocket,
             c.EINVAL => error.IllegalValue,
             c.ETERM => error.Terminated,
-            c.EINTR => @call(.always_tail, setOption, .{ sock, opt, value, len }),
+            c.EINTR => setOption(sock, opt, value, len),
             else => |unex| unexpectedError(unex),
         };
     }
@@ -296,7 +296,7 @@ pub const Socket = opaque {
             c.ENOTSOCK => error.NotSocket,
             c.EINVAL => error.IllegalValue,
             c.ETERM => error.Terminated,
-            c.EINTR => @call(.always_tail, getOption, .{ sock, opt, value, len }),
+            c.EINTR => getOption(sock, opt, value, len),
             else => |unex| unexpectedError(unex),
         };
     }
@@ -548,11 +548,11 @@ pub const z85 = struct {
 pub const curve = struct {
     /// zmq_curve_public
     pub fn public(public_key: *[40:0]u8, secret_key: *const [40:0]u8) error{NotSupported}!void {
-        return if(c.zmq_curve_public(public_key, secret_key) != 0) return error.NotSupported;
+        return if (c.zmq_curve_public(public_key, secret_key) != 0) return error.NotSupported;
     }
 
     /// zmq_curve_keypair
     pub fn keypair(public_key: *[40:0]u8, secret_key: *[40:0]u8) error{NotSupported}!void {
-        return if(c.zmq_curve_keypair(public_key, secret_key) != 0) return error.NotSupported;
+        return if (c.zmq_curve_keypair(public_key, secret_key) != 0) return error.NotSupported;
     }
 };

@@ -35,6 +35,7 @@ exe.linkLibrary(libzmq);
 - `Socket`: used by  all functions that operate on sockets
 - `Message`: `zmq_msg_t`
 - `z85`: functions that deal with Z85
+- `curve`: functions for dealing with `ZMQ_CURVE` authentication and encryption
 
 ## Echo server
 
